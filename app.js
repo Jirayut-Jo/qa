@@ -47,9 +47,12 @@ app.put('/update', (req, res) => {
 });
 
 app.delete('/delete', (req, res) => {
-    const { username } = req.body;
+    const { username, password } = req.body;
     if (!users[username]) {
         return res.status(400).send('User does not exist');
+    }
+    if (users[username].password !== password) {
+        return res.status(401).send('Invalid credentials');
     }
     delete users[username];
     return res.status(200).send('User deleted successfully');
