@@ -1,30 +1,40 @@
-*** Settings ***
-Library    SeleniumLibrary    #auto_close=${FALSE}
+* Settings *
+Library           RequestsLibrary
 
-*** Variables ***
-${BROWSER}    chrome
-${URL}    https://codenboxautomationlab.com/practice/
+* Variables *
+${BASE_URL}       http://localhost:3000
 
-*** Keywords ***
+* Test Cases *
+Register User
+    Create Session    session    ${BASE_URL}
+    &{data}=    Create Dictionary    username=testuser    password=testpass
+    ${response}=    Post Request    session    /register    json=${data}
+    Check Response Code    ${response.status_code}    200
 
+Login User
+    Create Session    session    ${BASE_URL}
+    &{data}=    Create Dictionary    username=testuser    password=testpass
+    ${response}=    Post Request    session    /login    json=${data}
+    Check Response Code    ${response.status_code}    200
 
-*** Test Cases ***
-CodenBox AutomationLab
-    Open Browser   ${URL}   ${BROWSER}
-    maximize browser window
-#Radio Button Example
-    page should contain radio button    xpath:(//input[@name='radioButton'])
-    sleep  2
-    select radio button    radioButton   radio2
-    radio button should be set to  radioButton   radio2
-#Dynamic Dropdown Example
-    click element     xpath://input[@id='autocomplete']
-    input text     id:autocomplete     thai
-    click element    id:autocomplete   action_chain=True
-#Static Dropdown Example
-    Wait Until Element Is Visible  id:dropdown-class-example  timeout=5
-    Select From List By Index  id:dropdown-class-example  option1
-    List Selection Should Be  id:dropdown-class-example  option1
-    Select From List By Value  id:dropdown-class-example  option3
-    List Selection Should Be  id:dropdown-class-example  option3
-    Close browser
+Update User Password
+    Create Session    session    ${BASE_URL}
+    &{data}=    Create Dictionary    username=testuser    newPassword=newpass123
+    ${response}=    Put Request    session    /update    json=${data}
+    Check Response Code    ${response.status_code}    200
+
+Delete User
+    Create Session    session    ${BASE_URL}
+    &{data}=    Create Dictionary    username=testuser
+    ${response}=    Delete Request    session    /delete    json=${data}
+    Check Response Code    ${response.status_code}    200
+
+Get All Users
+    Create Session    session    ${BASE_URL}
+    ${response}=    Get Request    session    /users
+    Check Response Code    ${response.status_code}    200
+
+* Keywords *
+Check Response Code
+    [Arguments]    ${actual_code}    ${expected_code}
+    Run Keyword If    '${actual_code}' != '${expected_code}'    Fail    Expected status code to be '${expected_code}' but was '${actual_code}'.
