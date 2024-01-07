@@ -19,6 +19,20 @@ pipeline {
                 }
             }
         }
+        stage('Cleanup-before-stage') {
+            steps {
+                script {
+                    def containerExists = sh(script: "docker ps -q -f name=${CONTAINER_NAME}", returnStatus: true)
+                    if (containerExists == 0) {
+                        echo "Container ${CONTAINER_NAME} not found, proceeding to the next stage."
+                    } else {
+                        sh "docker stop ${CONTAINER_NAME}"
+                        sh "docker rm ${CONTAINER_NAME}"
+                        echo "Container ${CONTAINER_NAME} stopped and removed."
+                    }
+                }
+            }
+        }
         stage('Run Container') {
             steps {
                 script {
@@ -42,20 +56,26 @@ pipeline {
                 }
             }
         }
-        stage('Copy and Archive Test Results') {
+        stage('Copy Robot Results to Workspace') {
             steps {
                 script {
-                    sh "docker cp ${CONTAINER_NAME}:/app/output.xml output.xml"
-                    sh "docker cp ${CONTAINER_NAME}:/app/log.html log.html"
-                    sh "docker cp ${CONTAINER_NAME}:/app/report.html report.html"
+                    sh "docker cp ${CONTAINER_NAME}:/app/output.xml /var/lib/jenkins/workspace/robot/output.xml"
+                    sh "docker cp ${CONTAINER_NAME}:/app/log.html /var/lib/jenkins/workspace/robot/log.html"
+                    sh "docker cp ${CONTAINER_NAME}:/app/report.html /var/lib/jenkins/workspace/robot/report.html"
                 }
-                archiveArtifacts artifacts: 'output.xml, log.html, report.html', allowEmptyArchive: true
             }
         }
         stage('Performance Test') {
             steps {
                 script {
-                    sh "docker exec ${CONTAINER_NAME} k6 run /app/automate-test/test-performance-k6.js"
+                    sh "docker exec node-app-container k6 run /app/automate-test/test-performance-k6.js --out json=result.json"
+                }
+            }
+        }
+        stage('Copy k6 Performance Results to Workspace') {
+            steps {
+                script {
+                    sh "docker cp ${CONTAINER_NAME}:/app/result.json /var/lib/jenkins/workspace/k6/result.json"
                 }
             }
         }
