@@ -20,6 +20,8 @@ COPY backend/ ./backend/
 
 COPY automate-test/ ./automate-test/
 
+RUN mkdir -p /app/results && chown -R jenkins:jenkins /app/results
+
 EXPOSE 3000
 
 CMD ["node", "backend/app.js"]
