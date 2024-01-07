@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'my-node-app'
-        CONTAINER_NAME = 'my-node-app-container'
+        IMAGE_NAME = 'node-app'
+        CONTAINER_NAME = 'node-app-container'
     }
     stages {
         stage('Checkout') {
@@ -13,41 +13,46 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    dir('backend') {
-                        docker.build("$IMAGE_NAME", "--no-cache .")
-                    }
+                    docker.build("$IMAGE_NAME", "--no-cache .")
                 }
             }
         }
         stage('Run Container') {
             steps {
                 script {
-                    docker.run("--name $CONTAINER_NAME -d -p 3000:3000 $IMAGE_NAME")
+                    sh "docker run -d --name ${CONTAINER_NAME} -p 3000:3000 ${IMAGE_NAME}"
                 }
             }
         }
-        stage('Run Tests') {
+        stage('Run Robot Tests') {
             steps {
                 script {
-                    sh "docker exec $CONTAINER_NAME robot /app/QA/automate-test/test.robot"
+                    sh "docker exec ${CONTAINER_NAME} robot /app/QA/automate-test/test.robot"
+                }
+            }
+        }
+        stage('Performance Test') {
+            steps {
+                script {
+                    sh "docker exec ${CONTAINER_NAME} k6 run /app/QA/automate-test/test-performance.js"
                 }
             }
         }
         stage('Cleanup') {
             steps {
                 script {
-                    sh "docker stop $CONTAINER_NAME"
-                    sh "docker rm $CONTAINER_NAME"
-                    sh "docker rmi $IMAGE_NAME"
+                    sh "docker stop ${CONTAINER_NAME}"
+                    sh "docker rm ${CONTAINER_NAME}"
+                    sh "docker rmi ${IMAGE_NAME}"
                 }
             }
         }
     }
     post {
         always {
-            sh "docker stop $CONTAINER_NAME || true"
-            sh "docker rm $CONTAINER_NAME || true"
-            sh "docker rmi $IMAGE_NAME || true"
+            sh "docker stop ${CONTAINER_NAME} || true"
+            sh "docker rm ${CONTAINER_NAME} || true"
+            sh "docker rmi ${IMAGE_NAME} || true"
         }
         success {
             echo 'Tests passed successfully!'

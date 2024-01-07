@@ -1,26 +1,42 @@
-FROM node:14
+FROM node:14 AS build
 
 
 RUN apt-get update && \
     apt-get install -y python3 python3-pip && \
+    pip3 install robotframework
+
+
+RUN apt-get update && \
+    apt-get install -y gnupg2 && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 && \
+    echo "deb https://dl.bintray.com/loadimpact/deb stable main" | tee -a /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y k6 && \
     rm -rf /var/lib/apt/lists/*
-
-
-RUN pip3 install robotframework
 
 
 WORKDIR /app
 
 
-COPY package*.json ./
+COPY backend/package*.json ./
+
 
 RUN npm install
 
 
-COPY . .
+COPY backend/ ./
 
 
-COPY QA/automate-test/test.robot /app/QA/automate-test/test.robot
+COPY QA/automate-test/ /app/QA/automate-test/
+
+
+FROM node:14
+
+
+WORKDIR /app
+
+
+COPY --from=build /app .
 
 
 EXPOSE 3000
