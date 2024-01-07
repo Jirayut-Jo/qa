@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 
 RUN apt-get install -y dbus
-RUN /usr/sbin/policy-rc.d --no-new-privs
+RUN update-rc.d -f dbus remove 
 
 RUN apt-get update && \
   apt-get install -y gnupg2 software-properties-common && \
