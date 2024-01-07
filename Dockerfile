@@ -3,8 +3,8 @@ FROM node:14 AS build
 
 RUN apt-get update && \
     apt-get install -y python3 python3-pip && \
-    pip3 install robotframework
-
+    pip3 install robotframework \
+    pip3 install robotframework-requests
 
 
 WORKDIR /app
