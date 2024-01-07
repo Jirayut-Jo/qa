@@ -6,13 +6,8 @@ RUN apt-get update && \
     pip3 install robotframework
 
 
-RUN apt-get update && \
-    apt-get install -y gnupg2 software-properties-common && \
-    curl -s https://k6.io/docs/getting-started/installation/#debianubuntu | grep 'apt-key adv' | bash && \
-    echo "deb https://dl.k6.io/deb stable main" | tee -a /etc/apt/sources.list.d/k6.list && \
-    apt-get update && \
-    apt-get install -y k6 && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys [CORRECT_KEY_HERE] && \
+  test -n "[CORRECT_KEY_HERE]"
 
 WORKDIR /app
 
