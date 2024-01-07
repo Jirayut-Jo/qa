@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+    environment {
+        IMAGE_NAME = 'my-node-app'
+        CONTAINER_NAME = 'my-node-app-container'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git(credentialsId: 'jo-cred', url: 'https://github.com/Jirayut-Jo/qa')
+            }
+        }
+        stage('Build Image') {
+            steps {
+                script {
+                    dir('backend') {
+                        docker.build("$IMAGE_NAME", "--no-cache .")
+                    }
+                }
+            }
+        }
+        stage('Run Container') {
+            steps {
+                script {
+                    docker.run("--name $CONTAINER_NAME -d -p 3000:3000 $IMAGE_NAME")
+                }
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                script {
+                    sh "docker exec $CONTAINER_NAME robot /app/QA/automate-test/test.robot"
+                }
+            }
+        }
+        stage('Cleanup') {
+            steps {
+                script {
+                    sh "docker stop $CONTAINER_NAME"
+                    sh "docker rm $CONTAINER_NAME"
+                    sh "docker rmi $IMAGE_NAME"
+                }
+            }
+        }
+    }
+    post {
+        always {
+            sh "docker stop $CONTAINER_NAME || true"
+            sh "docker rm $CONTAINER_NAME || true"
+            sh "docker rmi $IMAGE_NAME || true"
+        }
+        success {
+            echo 'Tests passed successfully!'
+        }
+        failure {
+            echo 'Tests failed. Check the logs for more information.'
+        }
+    }
+}

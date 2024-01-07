@@ -1,0 +1,44 @@
+body {
+    background-color: #f0f8ff;
+    font-family: sans-serif;
+  }
+  
+  header {
+    background-color: #00b8ff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2em;
+  }
+  
+  section {
+    padding: 20px;
+  }
+  
+  .login-register {
+    background-color: #ffffff;
+  }
+  
+  form {
+    margin-top: 20px;
+  }
+  
+  input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .submit {
+    background-color: #00b8ff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  footer {
+    background-color: #00b8ff;
+    padding: 20px;
+    text-align: center;
+  }

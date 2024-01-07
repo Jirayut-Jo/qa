@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>User Management</h1>
+  </header>
+
+  <main>
+    <section class="login-register">
+      <h2>Login or Register</h2>
+      <form action="/login" method="post" onsubmit="return isLoggedIn()">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Login">
+      </form>
+      <form action="/register" method="post">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Register">
+      </form>
+    </section>
+
+    <section class="update-delete" hidden>
+      <h2>Update or Delete</h2>
+      <form action="/update" method="post">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="password" name="newPassword" placeholder="New Password">
+        <input type="submit" value="Update">
+      </form>
+      <form action="/delete" method="post">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Delete">
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023</p>
+  </footer>
+  <script src="script.js"></script> </body>
+</html>
