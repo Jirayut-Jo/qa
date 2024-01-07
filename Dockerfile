@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 
 
-WORKDIR /app
+WORKDIR /app/backend
 
 
 COPY backend/package*.json ./
@@ -20,18 +20,6 @@ COPY backend/ ./
 
 
 COPY automate-test/ automate-test/
-
-#FROM node:14
-
-
-#RUN apt-get update && \
-    #apt-get install -y python3 python3-pip
-
-
-#COPY --from=build /app .
-
-
-#WORKDIR /app
 
 
 EXPOSE 3000
