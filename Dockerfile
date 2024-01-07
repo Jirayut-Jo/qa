@@ -22,17 +22,17 @@ COPY backend/ ./
 COPY automate-test/ /app/automate-test/
 
 
-FROM node:14
+#FROM node:14
 
 
-RUN apt-get update && \
+#RUN apt-get update && \
     apt-get install -y python3 python3-pip
 
 
-COPY --from=build /app .
+#COPY --from=build /app .
 
 
-WORKDIR /app
+#WORKDIR /app
 
 
 EXPOSE 3000
