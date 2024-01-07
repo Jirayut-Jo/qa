@@ -36,7 +36,7 @@ pipeline {
         stage('Performance Test') {
             steps {
                 script {
-                    sh "docker exec ${CONTAINER_NAME} k6 run /app/QA/automate-test/test-performance.js"
+                    sh "docker exec ${CONTAINER_NAME} k6 run /app/automate-test/test-performance.js"
                 }
             }
         }
