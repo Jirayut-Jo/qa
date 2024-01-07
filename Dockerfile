@@ -6,16 +6,16 @@ RUN apt-get update && \
     pip3 install robotframework
 
 
-ENV DEBIAN_FRONTEND=noninteractive
+#ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get install -y dbus
+#RUN apt-get install -y dbus
 
 
-RUN apt-get update
-RUN apt-get install -y gnupg2 software-properties-common
+#RUN apt-get update
+#RUN apt-get install -y gnupg2 software-properties-common
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys [CORRECT_KEY_HERE] && \
-    test -n "[CORRECT_KEY_HERE]"
+#RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys [CORRECT_KEY_HERE] && \
+    #test -n "[CORRECT_KEY_HERE]"
 
 WORKDIR /app
 
