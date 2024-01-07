@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 RUN apt-get update && \
     apt-get install -y gnupg2 software-properties-common && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys [CORRECT_KEY_HERE] && \
+    curl -s https://k6.io/docs/getting-started/installation/#debianubuntu | grep 'apt-key adv' | bash && \
     echo "deb https://dl.k6.io/deb stable main" | tee -a /etc/apt/sources.list.d/k6.list && \
     apt-get update && \
     apt-get install -y k6 && \
@@ -28,7 +28,10 @@ COPY backend/ ./
 
 COPY automate-test/ /app/automate-test/
 
+
+
 FROM node:14
+
 
 
 WORKDIR /app
@@ -36,6 +39,8 @@ WORKDIR /app
 
 COPY --from=build /app .
 
+
 EXPOSE 3000
+
 
 CMD [ "node", "app.js" ]
