@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 
 
-WORKDIR /app/backend
+WORKDIR /app
 
 
 COPY backend/package*.json ./
@@ -16,17 +16,16 @@ COPY backend/package*.json ./
 RUN npm install
 
 
-COPY backend/ /app/backend
+COPY backend/ ./
 
 
-COPY automate-test/ /app/automate-test/
-
+COPY automate-test/ automate-test/
 
 #FROM node:14
 
 
 #RUN apt-get update && \
-    apt-get install -y python3 python3-pip
+    #apt-get install -y python3 python3-pip
 
 
 #COPY --from=build /app .
@@ -38,4 +37,5 @@ COPY automate-test/ /app/automate-test/
 EXPOSE 3000
 
 
-CMD [ "node", "app.js" ]
+CMD ["node", "backend/app.js"]
+
