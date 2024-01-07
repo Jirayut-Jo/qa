@@ -14,7 +14,6 @@ RUN apt-get update && \
     apt-get install -y k6 && \
     rm -rf /var/lib/apt/lists/*
 
-
 WORKDIR /app
 
 
@@ -26,8 +25,8 @@ RUN npm install
 
 COPY backend/ ./
 
-COPY automate-test/ /app/automate-test/
 
+COPY automate-test/ /app/automate-test/
 
 FROM node:14
 
@@ -37,8 +36,6 @@ WORKDIR /app
 
 COPY --from=build /app .
 
-
 EXPOSE 3000
-
 
 CMD [ "node", "app.js" ]
