@@ -6,32 +6,32 @@ ${BASE_URL}       http://localhost:3000
 
 * Test Cases *
 Register User
-    Create Session    session    ${BASE_URL}
+    ${session}=    Create Session    session    ${BASE_URL}
     &{data}=    Create Dictionary    username=testuser    password=testpass
-    ${response}=    Post Request    session    /register    json=${data}
+    ${response}=    POST On Session    session    /register    json=${data}
     Check Response Code    ${response.status_code}    200
 
 Login User
-    Create Session    session    ${BASE_URL}
+    ${session}=    Create Session    session    ${BASE_URL}
     &{data}=    Create Dictionary    username=testuser    password=testpass
-    ${response}=    Post Request    session    /login    json=${data}
+    ${response}=    POST On Session    session    /login    json=${data}
     Check Response Code    ${response.status_code}    200
 
 Update User Password
-    Create Session    session    ${BASE_URL}
+    ${session}=    Create Session    session    ${BASE_URL}
     &{data}=    Create Dictionary    username=testuser    newPassword=newpass123
-    ${response}=    Put Request    session    /update    json=${data}
+    ${response}=    PUT On Session    session    /update    json=${data}
     Check Response Code    ${response.status_code}    200
 
 Delete User
-    Create Session    session    ${BASE_URL}
-    &{data}=    Create Dictionary    username=testuser
-    ${response}=    Delete Request    session    /delete    json=${data}
+    ${session}=    Create Session    session    ${BASE_URL}
+    &{data}=    Create Dictionary    username=testuser    password=testpass
+    ${response}=    DELETE On Session    session    /delete    json=${data}
     Check Response Code    ${response.status_code}    200
 
 Get All Users
-    Create Session    session    ${BASE_URL}
-    ${response}=    Get Request    session    /users
+    ${session}=    Create Session    session    ${BASE_URL}
+    ${response}=    GET On Session    session    /users
     Check Response Code    ${response.status_code}    200
 
 * Keywords *
