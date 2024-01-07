@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 
 
-WORKDIR /app
+WORKDIR /app/backend
 
 
 COPY backend/package*.json ./
@@ -16,7 +16,7 @@ COPY backend/package*.json ./
 RUN npm install
 
 
-COPY backend/ ./
+COPY backend/ /app/backend
 
 
 COPY automate-test/ /app/automate-test/
