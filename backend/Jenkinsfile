@@ -7,7 +7,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git(credentialsId: 'jo-cred', url: 'https://github.com/Jirayut-Jo/qa')
+                git branch: 'main',
+                    credentialsId: 'jo-cred',
+                    url: 'https://github.com/Jirayut-Jo/qa'
             }
         }
         stage('Build Image') {
