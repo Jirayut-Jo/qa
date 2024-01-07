@@ -6,6 +6,9 @@ RUN apt-get update && \
     pip3 install robotframework
 
 
+RUN apt-get install -y dbus
+RUN /usr/sbin/policy-rc.d --no-new-privs
+
 RUN apt-get update && \
   apt-get install -y gnupg2 software-properties-common && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys [CORRECT_KEY_HERE] && \
