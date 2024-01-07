@@ -15,7 +15,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    docker.build("$IMAGE_NAME", '.')
+                    docker.build("$IMAGE_NAME", "--no-cache .")
                 }
             }
         }
@@ -23,22 +23,20 @@ pipeline {
             steps {
                 script {
                     sh "docker run -d --name ${CONTAINER_NAME} -p 3000:3000 ${IMAGE_NAME}"
-                    sh "sleep 20"
-                    sh "docker logs ${CONTAINER_NAME}"
-                }
-            }
-        }
-        stage('Check Container Status') {
-            steps {
-                script {
-                    sh "docker logs node-app-container" 
                 }
             }
         }
         stage('Run Robot Tests') {
             steps {
                 script {
-                    sh "docker exec ${CONTAINER_NAME} robot /app/automate-test/test.robot"
+                    sh "docker exec ${CONTAINER_NAME} robot /app/QA/automate-test/test.robot"
+                }
+            }
+        }
+        stage('Performance Test') {
+            steps {
+                script {
+                    sh "docker exec ${CONTAINER_NAME} k6 run /app/QA/automate-test/test-performance.js"
                 }
             }
         }
