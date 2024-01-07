@@ -15,7 +15,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    docker.build("$IMAGE_NAME", "--no-cache .")
+                    docker.build("$IMAGE_NAME", '.')
                 }
             }
         }
@@ -23,20 +23,39 @@ pipeline {
             steps {
                 script {
                     sh "docker run -d --name ${CONTAINER_NAME} -p 3000:3000 ${IMAGE_NAME}"
+                    sh "sleep 10"
+                    sh "docker logs ${CONTAINER_NAME}"
+                }
+            }
+        }
+        stage('Check Container Status') {
+            steps {
+                script {
+                    sh "docker logs node-app-container" 
                 }
             }
         }
         stage('Run Robot Tests') {
             steps {
                 script {
-                    sh "docker exec ${CONTAINER_NAME} robot /app/QA/automate-test/test.robot"
+                    sh "docker exec ${CONTAINER_NAME} robot /app/automate-test/test.robot"
                 }
+            }
+        }
+        stage('Copy and Archive Test Results') {
+            steps {
+                script {
+                    sh "docker cp ${CONTAINER_NAME}:/app/output.xml output.xml"
+                    sh "docker cp ${CONTAINER_NAME}:/app/log.html log.html"
+                    sh "docker cp ${CONTAINER_NAME}:/app/report.html report.html"
+                }
+                archiveArtifacts artifacts: 'output.xml, log.html, report.html', allowEmptyArchive: true
             }
         }
         stage('Performance Test') {
             steps {
                 script {
-                    sh "docker exec ${CONTAINER_NAME} k6 run /app/automate-test/test-performance.js"
+                    sh "docker exec ${CONTAINER_NAME} k6 run /app/automate-test/test-performance-k6.js"
                 }
             }
         }
@@ -51,11 +70,6 @@ pipeline {
         }
     }
     post {
-        always {
-            sh "docker stop ${CONTAINER_NAME} || true"
-            sh "docker rm ${CONTAINER_NAME} || true"
-            sh "docker rmi ${IMAGE_NAME} || true"
-        }
         success {
             echo 'Tests passed successfully!'
         }
