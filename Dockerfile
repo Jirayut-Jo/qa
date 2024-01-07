@@ -7,12 +7,13 @@ RUN apt-get update && \
 
 
 RUN apt-get update && \
-    apt-get install -y gnupg2 && \
+    apt-get install -y gnupg2 software-properties-common && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 && \
-    echo "deb https://dl.bintray.com/loadimpact/deb stable main" | tee -a /etc/apt/sources.list && \
+    echo "deb https://dl.k6.io/deb stable main" | tee -a /etc/apt/sources.list.d/k6.list && \
     apt-get update && \
     apt-get install -y k6 && \
     rm -rf /var/lib/apt/lists/*
+
 
 
 WORKDIR /app
