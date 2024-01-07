@@ -27,7 +27,7 @@ RUN npm install
 COPY backend/ ./
 
 
-COPY QA/automate-test/ /app/QA/automate-test/
+COPY automate-test/ /app/automate-test/
 
 
 FROM node:14
