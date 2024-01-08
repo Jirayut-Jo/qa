@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id') 
-        IMAGE_NAME = 'jirayutrungsuwan/ci-cd' 
+        IMAGE_NAME = 'jirayutrungsuwan/test1' 
     }
 
     stages {
