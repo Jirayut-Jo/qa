@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     def builtImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
-                    builtImage.tag('latest')
+                    builtImage.tag('1123')
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials-id') {
                         docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
-                        docker.image("${IMAGE_NAME}:latest").push() 
+                        docker.image("${IMAGE_NAME}:1123").push() 
                     }
                 }
             }
