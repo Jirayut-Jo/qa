@@ -10,7 +10,8 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
+                    def builtImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
+                    builtImage.tag('latest')
                 }
             }
         }
