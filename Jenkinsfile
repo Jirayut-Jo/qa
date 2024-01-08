@@ -17,8 +17,10 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
-                    docker.image("${IMAGE_NAME}:latest").push() 
+                    docker.withRegistry('https://registry.hub.docker.com', 'DOCKERHUB_CREDENTIALS') {
+                        docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
+                        docker.image("${IMAGE_NAME}:latest").push() 
+                    }
                 }
             }
         }
