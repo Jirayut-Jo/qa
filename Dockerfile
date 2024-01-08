@@ -23,4 +23,3 @@ COPY automate-test/ ./automate-test/
 EXPOSE 3000
 
 CMD ["node", "backend/app.js"]
-
