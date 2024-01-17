@@ -16,6 +16,6 @@ Example login form submit
     ...    Click Element    xpath=//button[@type="submit"]
     Switch Window    NEW
 Default Test Tesrdown
-    Close All Browser   
+    Close All Browser
 
 
