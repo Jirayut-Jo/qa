@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 6.1.1 (Python 3.10.12 on linux)" generated="20240117 20:43:20.428" rpa="false" schemaversion="4">
+<robot generator="Robot 6.1.1 (Python 3.10.12 on linux)" generated="20240117 23:13:19.435" rpa="false" schemaversion="4">
 <suite id="s1" name="Testlogin" source="/home/jirayut/repo/qa/testlogin.robot">
 <test id="s1-t1" name="Example login form submit" line="7">
 <kw name="Get Variable Value" library="BuiltIn">
@@ -7,42 +7,42 @@
 <arg>${HEADLESS}</arg>
 <arg>${False}</arg>
 <doc>Returns variable value or ``default`` if the variable does not exist.</doc>
-<msg timestamp="20240117 20:43:20.580" level="INFO">${HEADLESS} = False</msg>
-<status status="PASS" starttime="20240117 20:43:20.579" endtime="20240117 20:43:20.580"/>
+<msg timestamp="20240117 23:13:19.584" level="INFO">${HEADLESS} = False</msg>
+<status status="PASS" starttime="20240117 23:13:19.582" endtime="20240117 23:13:19.584"/>
 </kw>
 <kw name="Create Dictionary" library="BuiltIn">
 <var>&amp;{options}</var>
 <arg>headless=${HEADLESS}</arg>
 <doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20240117 20:43:20.581" level="INFO">&amp;{options} = { headless=False }</msg>
-<status status="PASS" starttime="20240117 20:43:20.580" endtime="20240117 20:43:20.581"/>
+<msg timestamp="20240117 23:13:19.585" level="INFO">&amp;{options} = { headless=False }</msg>
+<status status="PASS" starttime="20240117 23:13:19.584" endtime="20240117 23:13:19.585"/>
 </kw>
 <kw name="Open Browser" library="PuppeteerLibrary">
 <arg>https://www.facebook.com/</arg>
 <arg>options=${options}</arg>
 <doc>Opens a new browser instance to the specific ``url``.</doc>
-<msg timestamp="20240117 20:43:20.581" level="INFO">https://www.facebook.com/</msg>
-<status status="PASS" starttime="20240117 20:43:20.581" endtime="20240117 20:43:23.151"/>
+<msg timestamp="20240117 23:13:19.585" level="INFO">https://www.facebook.com/</msg>
+<status status="PASS" starttime="20240117 23:13:19.585" endtime="20240117 23:13:22.057"/>
 </kw>
 <kw name="Input Text" library="PuppeteerLibrary">
 <arg>xpath://*[@id="email"]</arg>
 <arg>possible0576@hotmail.com</arg>
 <doc>Types the given text into text field identified by ``locator``.</doc>
-<msg timestamp="20240117 20:43:23.151" level="INFO">Typing text 'possible0576@hotmail.com' into text field 'xpath://*[@id="email"]'.</msg>
-<status status="PASS" starttime="20240117 20:43:23.151" endtime="20240117 20:43:23.350"/>
+<msg timestamp="20240117 23:13:22.058" level="INFO">Typing text 'possible0576@hotmail.com' into text field 'xpath://*[@id="email"]'.</msg>
+<status status="PASS" starttime="20240117 23:13:22.057" endtime="20240117 23:13:22.318"/>
 </kw>
 <kw name="Click Element" library="PuppeteerLibrary">
 <arg>xpath://*[@id="pass"]</arg>
 <doc>Clicks element identified by ``locator``.</doc>
-<msg timestamp="20240117 20:43:23.351" level="INFO">Clicking element 'xpath://*[@id="pass"]'.</msg>
-<status status="PASS" starttime="20240117 20:43:23.350" endtime="20240117 20:43:23.420"/>
+<msg timestamp="20240117 23:13:22.318" level="INFO">Clicking element 'xpath://*[@id="pass"]'.</msg>
+<status status="PASS" starttime="20240117 23:13:22.318" endtime="20240117 23:13:22.388"/>
 </kw>
 <kw name="Input Text" library="PuppeteerLibrary">
 <arg>xpath://*[@id="pass"]</arg>
 <arg>jo0891840673</arg>
 <doc>Types the given text into text field identified by ``locator``.</doc>
-<msg timestamp="20240117 20:43:23.420" level="INFO">Typing text 'jo0891840673' into text field 'xpath://*[@id="pass"]'.</msg>
-<status status="PASS" starttime="20240117 20:43:23.420" endtime="20240117 20:43:23.555"/>
+<msg timestamp="20240117 23:13:22.389" level="INFO">Typing text 'jo0891840673' into text field 'xpath://*[@id="pass"]'.</msg>
+<status status="PASS" starttime="20240117 23:13:22.388" endtime="20240117 23:13:22.525"/>
 </kw>
 <kw name="Run Async Keywords" library="PuppeteerLibrary">
 <arg>Wait For New Window Open</arg>
@@ -52,49 +52,37 @@
 <doc>Executes all the given keywords in a asynchronous and wait until all keyword is completed</doc>
 <kw name="Capture Page Screenshot" library="PuppeteerLibrary">
 <doc>Capture current web page as image png file.</doc>
-<msg timestamp="20240117 20:43:53.617" level="FAIL">Target page, context or browser has been closed</msg>
-<status status="FAIL" starttime="20240117 20:43:53.612" endtime="20240117 20:43:53.617"/>
+<msg timestamp="20240117 23:13:52.593" level="FAIL">Target page, context or browser has been closed</msg>
+<status status="FAIL" starttime="20240117 23:13:52.590" endtime="20240117 23:13:52.594"/>
 </kw>
-<msg timestamp="20240117 20:43:53.618" level="FAIL">No new page has been open. pre: 1 current: 0</msg>
-<status status="FAIL" starttime="20240117 20:43:23.556" endtime="20240117 20:43:53.618"/>
+<msg timestamp="20240117 23:13:52.594" level="FAIL">No new page has been open. pre: 1 current: 0</msg>
+<status status="FAIL" starttime="20240117 23:13:22.525" endtime="20240117 23:13:52.595"/>
 </kw>
-<kw name="Switch Window" library="PuppeteerLibrary">
-<arg>NEW</arg>
-<doc>Switches to tabs matching locator
-locator support options NEW, MAIN and query using name, title and url
-    - NEW: latest opened window
-    - MAIN: main window
-    - title="QAHive": window title. Page title will have have error if new tab have auto redirection
-    - url="https://qahive.com": url support regex Example: url=.*qahive.com</doc>
-<status status="NOT RUN" starttime="20240117 20:43:53.618" endtime="20240117 20:43:53.618"/>
+<kw name="Wait Until Page Contains" library="PuppeteerLibrary">
+<arg>Login succeeded</arg>
+<doc>Waits until ``text`` appears on current page.</doc>
+<status status="NOT RUN" starttime="20240117 23:13:52.595" endtime="20240117 23:13:52.595"/>
 </kw>
-<kw name="Close Browser" library="PuppeteerLibrary" type="TEARDOWN">
-<doc>Closes the current browser</doc>
-<status status="PASS" starttime="20240117 20:43:53.619" endtime="20240117 20:43:53.744"/>
-</kw>
-<status status="FAIL" starttime="20240117 20:43:20.578" endtime="20240117 20:43:53.745">No new page has been open. pre: 1 current: 0</status>
-</test>
-<test id="s1-t2" name="Default Test Tesrdown" line="18">
 <kw name="Close All Browser" library="PuppeteerLibrary">
 <doc>Close all browser</doc>
-<status status="PASS" starttime="20240117 20:43:53.746" endtime="20240117 20:43:53.746"/>
+<status status="NOT RUN" starttime="20240117 23:13:52.595" endtime="20240117 23:13:52.595"/>
 </kw>
 <kw name="Close Browser" library="PuppeteerLibrary" type="TEARDOWN">
 <doc>Closes the current browser</doc>
-<status status="PASS" starttime="20240117 20:43:53.746" endtime="20240117 20:43:53.746"/>
+<status status="PASS" starttime="20240117 23:13:52.596" endtime="20240117 23:13:52.769"/>
 </kw>
-<status status="PASS" starttime="20240117 20:43:53.745" endtime="20240117 20:43:53.746"/>
+<status status="FAIL" starttime="20240117 23:13:19.582" endtime="20240117 23:13:52.769">No new page has been open. pre: 1 current: 0</status>
 </test>
-<status status="FAIL" starttime="20240117 20:43:20.429" endtime="20240117 20:43:53.747"/>
+<status status="FAIL" starttime="20240117 23:13:19.436" endtime="20240117 23:13:52.770"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="1" skip="0">All Tests</stat>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="1" fail="1" skip="0" id="s1" name="Testlogin">Testlogin</stat>
+<stat pass="0" fail="1" skip="0" id="s1" name="Testlogin">Testlogin</stat>
 </suite>
 </statistics>
 <errors>
