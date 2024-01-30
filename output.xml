@@ -1,88 +1,260 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 6.1.1 (Python 3.10.12 on linux)" generated="20240117 23:13:19.435" rpa="false" schemaversion="4">
-<suite id="s1" name="Testlogin" source="/home/jirayut/repo/qa/testlogin.robot">
-<test id="s1-t1" name="Example login form submit" line="7">
-<kw name="Get Variable Value" library="BuiltIn">
-<var>${HEADLESS}</var>
-<arg>${HEADLESS}</arg>
-<arg>${False}</arg>
-<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
-<msg timestamp="20240117 23:13:19.584" level="INFO">${HEADLESS} = False</msg>
-<status status="PASS" starttime="20240117 23:13:19.582" endtime="20240117 23:13:19.584"/>
+<robot generator="Robot 6.1.1 (Python 3.10.12 on linux)" generated="20240119 19:39:10.134" rpa="false" schemaversion="4">
+<suite id="s1" name="Testapi" source="/home/jirayut/repo/qa/testapi.robot">
+<test id="s1-t1" name="Register User" line="8">
+<kw name="Create Session" library="RequestsLibrary">
+<var>${session}</var>
+<arg>session</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20240119 19:39:10.223" level="INFO">Creating Session using : alias=session, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20240119 19:39:10.223" level="INFO">${session} = &lt;requests.sessions.Session object at 0x7f57ba2f9960&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.222" endtime="20240119 19:39:10.223"/>
 </kw>
 <kw name="Create Dictionary" library="BuiltIn">
-<var>&amp;{options}</var>
-<arg>headless=${HEADLESS}</arg>
+<var>&amp;{data}</var>
+<arg>username=testuser</arg>
+<arg>password=testpass</arg>
 <doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20240117 23:13:19.585" level="INFO">&amp;{options} = { headless=False }</msg>
-<status status="PASS" starttime="20240117 23:13:19.584" endtime="20240117 23:13:19.585"/>
+<msg timestamp="20240119 19:39:10.225" level="INFO">&amp;{data} = { username=testuser | password=testpass }</msg>
+<status status="PASS" starttime="20240119 19:39:10.223" endtime="20240119 19:39:10.225"/>
 </kw>
-<kw name="Open Browser" library="PuppeteerLibrary">
-<arg>https://www.facebook.com/</arg>
-<arg>options=${options}</arg>
-<doc>Opens a new browser instance to the specific ``url``.</doc>
-<msg timestamp="20240117 23:13:19.585" level="INFO">https://www.facebook.com/</msg>
-<status status="PASS" starttime="20240117 23:13:19.585" endtime="20240117 23:13:22.057"/>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>session</arg>
+<arg>/register</arg>
+<arg>json=${data}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20240119 19:39:10.248" level="INFO">POST Request : url=http://localhost:3000/register 
+ path_url=/register 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '48', 'Content-Type': 'application/json'} 
+ body=b'{"username": "testuser", "password": "testpass"}' 
+ </msg>
+<msg timestamp="20240119 19:39:10.248" level="INFO">POST Response : url=http://localhost:3000/register 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '42', 'ETag': 'W/"2a-nMoFx54+czTntmSLXl3mqIsZV4A"', 'Date': 'Fri, 19 Jan 2024 12:39:10 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"message":"User registered successfully"} 
+ </msg>
+<msg timestamp="20240119 19:39:10.249" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.225" endtime="20240119 19:39:10.249"/>
 </kw>
-<kw name="Input Text" library="PuppeteerLibrary">
-<arg>xpath://*[@id="email"]</arg>
-<arg>possible0576@hotmail.com</arg>
-<doc>Types the given text into text field identified by ``locator``.</doc>
-<msg timestamp="20240117 23:13:22.058" level="INFO">Typing text 'possible0576@hotmail.com' into text field 'xpath://*[@id="email"]'.</msg>
-<status status="PASS" starttime="20240117 23:13:22.057" endtime="20240117 23:13:22.318"/>
+<kw name="Check Response Code">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${actual_code}' != '${expected_code}'</arg>
+<arg>Fail</arg>
+<arg>Expected status code to be '${expected_code}' but was '${actual_code}'.</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" starttime="20240119 19:39:10.251" endtime="20240119 19:39:10.251"/>
 </kw>
-<kw name="Click Element" library="PuppeteerLibrary">
-<arg>xpath://*[@id="pass"]</arg>
-<doc>Clicks element identified by ``locator``.</doc>
-<msg timestamp="20240117 23:13:22.318" level="INFO">Clicking element 'xpath://*[@id="pass"]'.</msg>
-<status status="PASS" starttime="20240117 23:13:22.318" endtime="20240117 23:13:22.388"/>
+<status status="PASS" starttime="20240119 19:39:10.249" endtime="20240119 19:39:10.251"/>
 </kw>
-<kw name="Input Text" library="PuppeteerLibrary">
-<arg>xpath://*[@id="pass"]</arg>
-<arg>jo0891840673</arg>
-<doc>Types the given text into text field identified by ``locator``.</doc>
-<msg timestamp="20240117 23:13:22.389" level="INFO">Typing text 'jo0891840673' into text field 'xpath://*[@id="pass"]'.</msg>
-<status status="PASS" starttime="20240117 23:13:22.388" endtime="20240117 23:13:22.525"/>
-</kw>
-<kw name="Run Async Keywords" library="PuppeteerLibrary">
-<arg>Wait For New Window Open</arg>
-<arg>AND</arg>
-<arg>Click Element</arg>
-<arg>xpath=//button[@type="submit"]</arg>
-<doc>Executes all the given keywords in a asynchronous and wait until all keyword is completed</doc>
-<kw name="Capture Page Screenshot" library="PuppeteerLibrary">
-<doc>Capture current web page as image png file.</doc>
-<msg timestamp="20240117 23:13:52.593" level="FAIL">Target page, context or browser has been closed</msg>
-<status status="FAIL" starttime="20240117 23:13:52.590" endtime="20240117 23:13:52.594"/>
-</kw>
-<msg timestamp="20240117 23:13:52.594" level="FAIL">No new page has been open. pre: 1 current: 0</msg>
-<status status="FAIL" starttime="20240117 23:13:22.525" endtime="20240117 23:13:52.595"/>
-</kw>
-<kw name="Wait Until Page Contains" library="PuppeteerLibrary">
-<arg>Login succeeded</arg>
-<doc>Waits until ``text`` appears on current page.</doc>
-<status status="NOT RUN" starttime="20240117 23:13:52.595" endtime="20240117 23:13:52.595"/>
-</kw>
-<kw name="Close All Browser" library="PuppeteerLibrary">
-<doc>Close all browser</doc>
-<status status="NOT RUN" starttime="20240117 23:13:52.595" endtime="20240117 23:13:52.595"/>
-</kw>
-<kw name="Close Browser" library="PuppeteerLibrary" type="TEARDOWN">
-<doc>Closes the current browser</doc>
-<status status="PASS" starttime="20240117 23:13:52.596" endtime="20240117 23:13:52.769"/>
-</kw>
-<status status="FAIL" starttime="20240117 23:13:19.582" endtime="20240117 23:13:52.769">No new page has been open. pre: 1 current: 0</status>
+<status status="PASS" starttime="20240119 19:39:10.222" endtime="20240119 19:39:10.251"/>
 </test>
-<status status="FAIL" starttime="20240117 23:13:19.436" endtime="20240117 23:13:52.770"/>
+<test id="s1-t2" name="Login User" line="14">
+<kw name="Create Session" library="RequestsLibrary">
+<var>${session}</var>
+<arg>session</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20240119 19:39:10.252" level="INFO">Creating Session using : alias=session, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20240119 19:39:10.253" level="INFO">${session} = &lt;requests.sessions.Session object at 0x7f57ba2fad40&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.252" endtime="20240119 19:39:10.253"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{data}</var>
+<arg>username=testuser</arg>
+<arg>password=testpass</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240119 19:39:10.253" level="INFO">&amp;{data} = { username=testuser | password=testpass }</msg>
+<status status="PASS" starttime="20240119 19:39:10.253" endtime="20240119 19:39:10.253"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>session</arg>
+<arg>/login</arg>
+<arg>json=${data}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20240119 19:39:10.258" level="INFO">POST Request : url=http://localhost:3000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '48', 'Content-Type': 'application/json'} 
+ body=b'{"username": "testuser", "password": "testpass"}' 
+ </msg>
+<msg timestamp="20240119 19:39:10.258" level="INFO">POST Response : url=http://localhost:3000/login 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '30', 'ETag': 'W/"1e-DOWvfMhj05v4eN+mg6AlHJrIPp8"', 'Date': 'Fri, 19 Jan 2024 12:39:10 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"message":"Login successful"} 
+ </msg>
+<msg timestamp="20240119 19:39:10.258" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.254" endtime="20240119 19:39:10.258"/>
+</kw>
+<kw name="Check Response Code">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${actual_code}' != '${expected_code}'</arg>
+<arg>Fail</arg>
+<arg>Expected status code to be '${expected_code}' but was '${actual_code}'.</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" starttime="20240119 19:39:10.259" endtime="20240119 19:39:10.260"/>
+</kw>
+<status status="PASS" starttime="20240119 19:39:10.258" endtime="20240119 19:39:10.260"/>
+</kw>
+<status status="PASS" starttime="20240119 19:39:10.252" endtime="20240119 19:39:10.260"/>
+</test>
+<test id="s1-t3" name="Update User Password" line="20">
+<kw name="Create Session" library="RequestsLibrary">
+<var>${session}</var>
+<arg>session</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20240119 19:39:10.262" level="INFO">Creating Session using : alias=session, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20240119 19:39:10.262" level="INFO">${session} = &lt;requests.sessions.Session object at 0x7f57ba370130&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.261" endtime="20240119 19:39:10.262"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{data}</var>
+<arg>username=testuser</arg>
+<arg>newPassword=newpass123</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240119 19:39:10.264" level="INFO">&amp;{data} = { username=testuser | newPassword=newpass123 }</msg>
+<status status="PASS" starttime="20240119 19:39:10.263" endtime="20240119 19:39:10.264"/>
+</kw>
+<kw name="PUT On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>session</arg>
+<arg>/update</arg>
+<arg>json=${data}</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<msg timestamp="20240119 19:39:10.269" level="INFO">PUT Request : url=http://localhost:3000/update 
+ path_url=/update 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '53', 'Content-Type': 'application/json'} 
+ body=b'{"username": "testuser", "newPassword": "newpass123"}' 
+ </msg>
+<msg timestamp="20240119 19:39:10.269" level="INFO">PUT Response : url=http://localhost:3000/update 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '43', 'ETag': 'W/"2b-1leFLxO9pvRJ4B0CZIygDRcnOKs"', 'Date': 'Fri, 19 Jan 2024 12:39:10 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"message":"Password updated successfully"} 
+ </msg>
+<msg timestamp="20240119 19:39:10.270" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.264" endtime="20240119 19:39:10.270"/>
+</kw>
+<kw name="Check Response Code">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${actual_code}' != '${expected_code}'</arg>
+<arg>Fail</arg>
+<arg>Expected status code to be '${expected_code}' but was '${actual_code}'.</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" starttime="20240119 19:39:10.271" endtime="20240119 19:39:10.272"/>
+</kw>
+<status status="PASS" starttime="20240119 19:39:10.270" endtime="20240119 19:39:10.272"/>
+</kw>
+<status status="PASS" starttime="20240119 19:39:10.261" endtime="20240119 19:39:10.272"/>
+</test>
+<test id="s1-t4" name="Delete User" line="26">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>session</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20240119 19:39:10.273" level="INFO">Creating Session using : alias=session, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20240119 19:39:10.273" endtime="20240119 19:39:10.273"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{data}</var>
+<arg>username=testuser</arg>
+<arg>password=newpass123</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240119 19:39:10.274" level="INFO">&amp;{data} = { username=testuser | password=newpass123 }</msg>
+<status status="PASS" starttime="20240119 19:39:10.273" endtime="20240119 19:39:10.274"/>
+</kw>
+<kw name="DELETE On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>session</arg>
+<arg>/delete</arg>
+<arg>json=${data}</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<msg timestamp="20240119 19:39:10.278" level="INFO">DELETE Request : url=http://localhost:3000/delete 
+ path_url=/delete 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '50', 'Content-Type': 'application/json'} 
+ body=b'{"username": "testuser", "password": "newpass123"}' 
+ </msg>
+<msg timestamp="20240119 19:39:10.278" level="INFO">DELETE Response : url=http://localhost:3000/delete 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '39', 'ETag': 'W/"27-27o4zzUjhHNmthTJyia4gBCjpos"', 'Date': 'Fri, 19 Jan 2024 12:39:10 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"message":"User deleted successfully"} 
+ </msg>
+<msg timestamp="20240119 19:39:10.278" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.274" endtime="20240119 19:39:10.278"/>
+</kw>
+<kw name="Check Response Code">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${actual_code}' != '${expected_code}'</arg>
+<arg>Fail</arg>
+<arg>Expected status code to be '${expected_code}' but was '${actual_code}'.</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" starttime="20240119 19:39:10.280" endtime="20240119 19:39:10.280"/>
+</kw>
+<status status="PASS" starttime="20240119 19:39:10.279" endtime="20240119 19:39:10.280"/>
+</kw>
+<status status="PASS" starttime="20240119 19:39:10.272" endtime="20240119 19:39:10.280"/>
+</test>
+<test id="s1-t5" name="Get All Users" line="33">
+<kw name="Create Session" library="RequestsLibrary">
+<var>${session}</var>
+<arg>session</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20240119 19:39:10.282" level="INFO">Creating Session using : alias=session, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20240119 19:39:10.282" level="INFO">${session} = &lt;requests.sessions.Session object at 0x7f57ba371450&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.281" endtime="20240119 19:39:10.282"/>
+</kw>
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>session</arg>
+<arg>/users</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20240119 19:39:10.286" level="INFO">GET Request : url=http://localhost:3000/users 
+ path_url=/users 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20240119 19:39:10.287" level="INFO">GET Response : url=http://localhost:3000/users 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2', 'ETag': 'W/"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w"', 'Date': 'Fri, 19 Jan 2024 12:39:10 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body=[] 
+ </msg>
+<msg timestamp="20240119 19:39:10.287" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20240119 19:39:10.282" endtime="20240119 19:39:10.287"/>
+</kw>
+<kw name="Check Response Code">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${actual_code}' != '${expected_code}'</arg>
+<arg>Fail</arg>
+<arg>Expected status code to be '${expected_code}' but was '${actual_code}'.</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" starttime="20240119 19:39:10.288" endtime="20240119 19:39:10.289"/>
+</kw>
+<status status="PASS" starttime="20240119 19:39:10.287" endtime="20240119 19:39:10.289"/>
+</kw>
+<status status="PASS" starttime="20240119 19:39:10.281" endtime="20240119 19:39:10.289"/>
+</test>
+<status status="PASS" starttime="20240119 19:39:10.135" endtime="20240119 19:39:10.289"/>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1" skip="0">All Tests</stat>
+<stat pass="5" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="0" fail="1" skip="0" id="s1" name="Testlogin">Testlogin</stat>
+<stat pass="5" fail="0" skip="0" id="s1" name="Testapi">Testapi</stat>
 </suite>
 </statistics>
 <errors>

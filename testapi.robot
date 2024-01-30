@@ -24,10 +24,11 @@ Update User Password
     Check Response Code    ${response.status_code}    200
 
 Delete User
-    ${session}=    Create Session    session    ${BASE_URL}
-    &{data}=    Create Dictionary    username=testuser    password=testpass
+    Create Session    session    ${BASE_URL}
+    &{data}=    Create Dictionary    username=testuser    password=newpass123  
     ${response}=    DELETE On Session    session    /delete    json=${data}
     Check Response Code    ${response.status_code}    200
+
 
 Get All Users
     ${session}=    Create Session    session    ${BASE_URL}
